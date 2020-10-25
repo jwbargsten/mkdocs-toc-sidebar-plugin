@@ -23,14 +23,12 @@ class TocSidebar(BasePlugin):
 
     def on_post_page(self, output_content, page, config):
         soup = BeautifulSoup(output_content, 'html.parser')
-        nav_extra = soup.find("div", {"class": "sidebar"})
+        nav_extra = soup.find("div", {"id": "sidebar-extra"})
         if nav_extra:
-            soup_toc = soup.find("div", {"data-md-component" : "toc"})
+            soup_target_sidebar = soup.find("div", {"class" : "sphinxsidebarwrapper"})
             
-            if soup_toc:
-                scrollwrap = soup_toc.findNext("div", {"class" : "md-sidebar__scrollwrap"})
-                if scrollwrap:
-                    scrollwrap.insert(0, nav_extra)
+            if soup_target_sidebar:
+                soup_target_sidebar.insert(5, nav_extra)
             else:
                 print("WARNING: Table of Contents sidebar not found")
    
